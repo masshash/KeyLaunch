@@ -196,7 +196,9 @@ const InformationPanel = {
     },
     
     attach(key) {
-        this.detach();
+        if (this.infoType) {
+            this.detach();
+        }
         
         if (!key) {
             this.showUnfocus();
@@ -224,10 +226,11 @@ const InformationPanel = {
         }
     },
     
-    detach() {
+    detach(layer=global.currentLayer) {
         this[this.infoType].css('display', 'none');
         if (this.infoType == '$controller') {
-            this.key.getSource().content.isAttachedController = false;
+            let source = this.key.getSource(layer)
+            source.content.isAttachedController = false;
             if (this.progressID != -1) {
                 this.stopProgress();
             }

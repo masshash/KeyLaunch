@@ -26,9 +26,10 @@ const global = {
 };
 
 const main = {
-    relFnkeyIsActive: false,
-    $relFnkeyBtn:     null,
-    $launcher:        null
+    relFnkeyIsActive:  false,
+    pushFocusIsActive: true,
+    $relFnkeyBtn:      null,
+    $launcher:         null
 }
 
 const KEYDOWN = Symbol('keydown');
@@ -139,15 +140,13 @@ jQuery(function ($) {
         let nextLayer = Number(this.textContent) - 1;
         let preLayer = global.currentLayer
         if (nextLayer == preLayer) return;
-
-        global.$focusedKey = null;
         
         $($layers[preLayer]).removeClass(`active-layer layer${preLayer+1}`).addClass('inactive-layer');
         $($layers[nextLayer]).removeClass('inactive-layer').addClass(`active-layer layer${nextLayer+1}`);
         
-        global.infoPanel.attach();
-        global.infoPanel.master1.$layerDisps[preLayer].id = '';
-        global.infoPanel.master1.$layerDisps[nextLayer].id = 'layer-disp' + (nextLayer + 1);
+        let infoPanel = global.infoPanel;
+        infoPanel.master1.$layerDisps[preLayer].id = '';
+        infoPanel.master1.$layerDisps[nextLayer].id = 'layer-disp' + (nextLayer + 1);
         
         global.currentLayer = nextLayer;
         for (let key of global.launchKeyList) {
@@ -175,6 +174,14 @@ jQuery(function ($) {
             }
             
             key.P_allowDrag(nextSource.contentType != null);
+        }
+        
+        let focusedKey = global.$focusedKey
+        if (focusedKey) {
+            infoPanel.detach(preLayer);
+            infoPanel.infoType = null;
+            infoPanel.attach(focusedKey);
+            focusedKey.S_borderColor(keydeco.select);
         }
     });
     

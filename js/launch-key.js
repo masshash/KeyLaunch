@@ -272,11 +272,7 @@ class LaunchKey {
                 selfSource.gainNode.gain.value = otherSource.gainNode.gain.value;
                 
                 this.S_normalColor(true, false);
-                
-                this.selectAgain = true;
                 this.E_mousedown()();
-                this.selectAgain = false;
-                
                 this.P_allowDrag(true);
                 
                 other.deleteContent();
@@ -311,7 +307,6 @@ class LaunchKey {
             content.work.stop();
             return true;
         }
-        
         return false;
     }
     
@@ -595,6 +590,7 @@ class LaunchKey {
         if (eventType == KEYDOWN) {
             if (source.pushed) return;
             source.pushed = true;
+            this.E_mousedown()();
         } else if (eventType == KEYUP) {
             source.pushed = false;
         }
