@@ -1,0 +1,45 @@
+main {
+    background-color: #FAFAFA;
+    border: 1px solid #AAA;
+    box-sizing: border-box;
+    color: #555;
+    font-size: 16px;
+    margin: 40px auto 40px;
+    padding: 20px 40px;
+    width: 906px;
+}
+
+#logo-center {
+    margin: 13px auto 0;
+}
+
+h1 {
+    font-size: 32px;
+    margin: 50px 0;
+    text-align: center;
+}
+
+h2 {
+    font-size: 24px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+h3,
+h4 {
+    margin: 35px 0 20px;
+}
+
+h3 {
+    font-size: 19px;
+}
+
+h4 {
+    font-size: 15px;
+}
+
+p {
+    font-size: 13px;
+    line-height: 23px;
+    margin: 6px 0;
+}

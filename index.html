@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+<meta charset="UTF-8">
+<title>KeyLaunch</title>
+<link rel="stylesheet" href="css/plugins/jquery-ui-1.12.1.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Righteous">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/information-panel.css">
+<link rel="stylesheet" href="css/load-anim.css">
+<link rel="stylesheet" href="css/dialog-form.css">
+<script src="js/plugins/jquery-3.3.1.min.js"></script>
+<script src="js/plugins/jquery-ui-1.12.1.min.js"></script>
+<script src="js/launch-key.js"></script>
+<script src="js/information-panel.js"></script>
+<script src="js/dialog-form.js"></script>
+<script src="js/main.js"></script>
+</head>
+
+<body class="non-user-select">
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+<symbol id="setting" viewBox="0 0 512 512">
+	<path d="M499.453,210.004l-55.851-2.58c-5.102-0.23-9.608-3.395-11.546-8.103l-11.508-27.695
+		c-1.937-4.728-0.997-10.145,2.455-13.914l37.668-41.332c4.718-5.188,4.546-13.205-0.421-18.182l-46.434-46.443
+		c-4.986-4.967-13.003-5.159-18.2-0.412l-41.312,37.668c-3.778,3.443-9.206,4.402-13.924,2.436l-27.694-11.488
+		c-4.718-1.946-7.864-6.454-8.094-11.565l-2.589-55.831C301.675,5.534,295.883,0,288.864,0h-65.708
+		c-7.02,0-12.831,5.534-13.156,12.562l-2.571,55.831c-0.23,5.111-3.376,9.618-8.094,11.565L171.64,91.447
+		c-4.737,1.966-10.165,1.007-13.924-2.436l-41.331-37.668c-5.198-4.746-13.215-4.564-18.201,0.412L51.769,98.198
+		c-4.986,4.977-5.158,12.994-0.422,18.182l37.668,41.332c3.452,3.769,4.373,9.186,2.416,13.914l-11.469,27.695
+		c-1.956,4.708-6.444,7.873-11.564,8.103l-55.832,2.58c-7.019,0.316-12.562,6.118-12.562,13.147v65.699
+		c0,7.019,5.543,12.83,12.562,13.148l55.832,2.579c5.12,0.229,9.608,3.394,11.564,8.103l11.469,27.694
+		c1.957,4.728,1.036,10.146-2.416,13.914l-37.668,41.313c-4.756,5.217-4.564,13.224,0.403,18.201l46.471,46.443
+		c4.967,4.977,12.965,5.15,18.182,0.422l41.312-37.677c3.759-3.443,9.207-4.392,13.924-2.435l27.694,11.478
+		c4.719,1.956,7.864,6.464,8.094,11.575l2.571,55.831c0.325,7.02,6.136,12.562,13.156,12.562h65.708
+		c7.02,0,12.812-5.542,13.138-12.562l2.589-55.831c0.23-5.111,3.376-9.619,8.094-11.575l27.694-11.478
+		c4.718-1.957,10.146-1.008,13.924,2.435l41.312,37.677c5.198,4.728,13.215,4.555,18.2-0.422l46.434-46.443
+		c4.967-4.977,5.139-12.984,0.421-18.201l-37.668-41.313c-3.452-3.768-4.412-9.186-2.455-13.914l11.508-27.694
+		c1.937-4.709,6.444-7.874,11.546-8.103l55.851-2.579c7.019-0.318,12.542-6.129,12.542-13.148v-65.699
+		C511.995,216.122,506.472,210.32,499.453,210.004z M256.01,339.618c-46.164,0-83.622-37.438-83.622-83.612
+		c0-46.184,37.458-83.622,83.622-83.622s83.602,37.438,83.602,83.622C339.612,302.179,302.174,339.618,256.01,339.618z"></path>
+</symbol>
+<symbol id="delete" viewBox="0 0 512 512">
+	<path d="M77.869,448.93c0,13.312,1.623,25.652,5.275,35.961c4.951,13.636,13.475,23.457,26.299,26.297
+		c2.598,0.488,5.277,0.812,8.117,0.812h277.364c0.73,0,1.381,0,1.947-0.082c26.463-1.703,37.258-29.219,37.258-62.988
+		l11.121-269.324H66.748L77.869,448.93z M331.529,239.672h52.68v212.262h-52.68V239.672z M229.658,239.672h52.682v212.262h-52.682
+		V239.672z M127.789,239.672h52.762v212.262h-52.762V239.672z"></path>
+	<path d="M368.666,89.289c0.078-2.028,0.242-4.059,0.242-6.09v-5.598c0-42.777-34.822-77.602-77.6-77.602h-70.701
+		c-42.778,0-77.6,34.824-77.6,77.602v5.598c0,2.031,0.162,4.062,0.326,6.09H28.721v62.582h454.558V89.289H368.666z M320.205,83.199
+		c0,2.113-0.242,4.141-0.648,6.09H192.361c-0.406-1.949-0.65-3.977-0.65-6.09v-5.598c0-15.91,12.986-28.898,28.897-28.898h70.701
+		c15.99,0,28.896,12.988,28.896,28.898V83.199z"></path>
+</symbol>
+<symbol id="error" viewBox="0 0 512 512">
+	<path class="st0" d="M256.007,357.113c-16.784,0-30.411,13.613-30.411,30.397c0,16.791,13.627,30.405,30.411,30.405
+		s30.397-13.614,30.397-30.405C286.405,370.726,272.792,357.113,256.007,357.113z"></path>
+	<path class="st0" d="M505.097,407.119L300.769,53.209c-9.203-15.944-26.356-25.847-44.777-25.847
+		c-18.407,0-35.544,9.904-44.747,25.847L6.902,407.104c-9.203,15.943-9.203,35.751,0,51.694c9.204,15.943,26.356,25.84,44.763,25.84
+		h408.67c18.406,0,35.559-9.897,44.762-25.84C514.301,442.855,514.301,423.047,505.097,407.119z M464.465,432.405
+		c-2.95,5.103-8.444,8.266-14.35,8.266H61.878c-5.892,0-11.394-3.163-14.329-8.281c-2.964-5.11-2.979-11.445-0.014-16.548
+		l194.122-336.24c2.943-5.103,8.436-8.274,14.35-8.274c5.9,0,11.386,3.171,14.336,8.282l194.122,336.226
+		C467.415,420.945,467.415,427.295,464.465,432.405z"></path>
+	<path class="st0" d="M256.007,152.719c-16.784,0-30.411,13.613-30.411,30.405l11.68,137.487c0,10.346,8.378,18.724,18.731,18.724
+		c10.338,0,18.731-8.378,18.731-18.724l11.666-137.487C286.405,166.331,272.792,152.719,256.007,152.719z"></path>
+</symbol>
+</svg>
+
+<header class="header-width header-color">
+    <div id="header-line" class="header-width top-content-width header-color">
+        <div class="header-line-content">
+            <div class="logo">KeyLaunch</div>
+            <div id="guide-link-wrap">
+                <a id="guide-link" href="https://github.com/masshash/KeyLaunch/blob/master/README.md" target="_blank">KeyLaunch ガイド</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div id="infoback" class="info-color infoback-width">
+    <div id="infoback-top-inline" class="infoback-width infoback-inline"></div>
+    <div id="infoback-bottom-inline" class="infoback-width infoback-inline"></div>
+</div>
+
+<div id="information-panel" class="info-color">
+
+<div id="info-line-top" class="info-line">
+<div id="master1" class="info-line-content">
+<div id="layer-disp1" class="layer-disp left-layer-disp-margin empty-layer-disp" data-index="0">
+<div class="layer-disp-content">
+    <div class="layer-number">Layer 1</div>
+    <div class="content-counter">
+        <div class="play-mark">&#9632;</div>
+        <div class="counter-wrap">
+            <div class="counter-number counter-left">0</div>
+            <div class="counter-divide">/</div>
+            <div class="counter-number counter-right">0</div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="layer-disp layer-disp-margin empty-layer-disp" data-index="1">
+<div class="layer-disp-content">
+    <div class="layer-number">Layer 2</div>
+    <div class="content-counter">
+        <div class="play-mark">&#9632;</div>
+        <div class="counter-wrap">
+            <div class="counter-number counter-left">0</div>
+            <div class="counter-divide">/</div>
+            <div class="counter-number counter-right">0</div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="layer-disp layer-disp-margin empty-layer-disp" data-index="2">
+<div class="layer-disp-content">
+    <div class="layer-number">Layer 3</div>
+    <div class="content-counter">
+        <div class="play-mark">&#9632;</div>
+        <div class="counter-wrap">
+            <div class="counter-number counter-left">0</div>
+            <div class="counter-divide">/</div>
+            <div class="counter-number counter-right">0</div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="layer-disp layer-disp-margin empty-layer-disp" data-index="3">
+<div class="layer-disp-content">
+    <div class="layer-number">Layer 4</div>
+    <div class="content-counter">
+        <div class="play-mark">&#9632;</div>
+        <div class="counter-wrap">
+            <div class="counter-number counter-left">0</div>
+            <div class="counter-divide">/</div>
+            <div class="counter-number counter-right">0</div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="layer-disp layer-disp-margin empty-layer-disp" data-index="4">
+<div class="layer-disp-content">
+    <div class="layer-number">Layer 5</div>
+    <div class="content-counter">
+        <div class="play-mark">&#9632;</div>
+        <div class="counter-wrap">
+            <div class="counter-number counter-left">0</div>
+            <div class="counter-divide">/</div>
+            <div class="counter-number counter-right">0</div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="layer-disp layer-disp-margin empty-layer-disp" data-index="5">
+<div class="layer-disp-content">
+    <div class="layer-number">Layer 6</div>
+    <div class="content-counter">
+        <div class="play-mark">&#9632;</div>
+        <div class="counter-wrap">
+            <div class="counter-number counter-left">0</div>
+            <div class="counter-divide">/</div>
+            <div class="counter-number counter-right">0</div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="layer-disp layer-disp-margin empty-layer-disp" data-index="6">
+<div class="layer-disp-content">
+    <div class="layer-number">Layer 7</div>
+    <div class="content-counter">
+        <div class="play-mark">&#9632;</div>
+        <div class="counter-wrap">
+            <div class="counter-number counter-left">0</div>
+            <div class="counter-divide">/</div>
+            <div class="counter-number counter-right">0</div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="layer-disp layer-disp-margin empty-layer-disp" data-index="7">
+<div class="layer-disp-content">
+    <div class="layer-number">Layer 8</div>
+    <div class="content-counter">
+        <div class="play-mark">&#9632;</div>
+        <div class="counter-wrap">
+            <div class="counter-number counter-left">0</div>
+            <div class="counter-divide">/</div>
+            <div class="counter-number counter-right">0</div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="layer-disp layer-disp-margin empty-layer-disp" data-index="8">
+<div class="layer-disp-content">
+    <div class="layer-number">Layer 9</div>
+    <div class="content-counter">
+        <div class="play-mark">&#9632;</div>
+        <div class="counter-wrap">
+            <div class="counter-number counter-left">0</div>
+            <div class="counter-divide">/</div>
+            <div class="counter-number counter-right">0</div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="layer-disp layer-disp-margin empty-layer-disp" data-index="9">
+<div class="layer-disp-content">
+    <div class="layer-number">Layer 10</div>
+    <div class="content-counter">
+        <div class="play-mark">&#9632;</div>
+        <div class="counter-wrap">
+            <div class="counter-number counter-left">0</div>
+            <div class="counter-divide">/</div>
+            <div class="counter-number counter-right">0</div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="layer-disp layer-disp-margin empty-layer-disp" data-index="10">
+<div class="layer-disp-content">
+    <div class="layer-number">Layer 11</div>
+    <div class="content-counter">
+        <div class="play-mark">&#9632;</div>
+        <div class="counter-wrap">
+            <div class="counter-number counter-left">0</div>
+            <div class="counter-divide">/</div>
+            <div class="counter-number counter-right">0</div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="layer-disp right-layer-disp-margin empty-layer-disp" data-index="11">
+<div class="layer-disp-content">
+    <div class="layer-number">Layer 12</div>
+    <div class="content-counter">
+        <div class="play-mark">&#9632;</div>
+        <div class="counter-wrap">
+            <div class="counter-number counter-left">0</div>
+            <div class="counter-divide">/</div>
+            <div class="counter-number counter-right">0</div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="info-line-middle" class="info-line">
+<div id="master2" class="info-line-content info-line-content-height">
+    <div id="master-tag" class="tag">Master</div>
+    <div id="visualize-line">
+        <div><div id="L-line" class="LR-line">L</div><div id="R-line" class="LR-line">R</div></div>
+        <div><canvas id="visualizer" width="219" height="26"></canvas></div>
+    </div>
+    <div id="master-stop-btn" class="stop-btn">
+        <div id="master-stop-square" class="stop-square stop-square-leave" title="全て停止"></div>
+    </div>
+    <div class="slider-wrap">
+        <div id="master-volume-slider" class="slider" data-slider-index="0"></div>
+        <div class="volume-text">Vol:</div>
+        <div id="master-volume" class="volume volume-style">50</div>
+    </div>
+    <div id="master-desc-line">
+        <div>
+            <div class="master-desc">Contents:</div><div id="master-content-counter">0 / 648</div>
+        </div>
+        <div>
+            <div class="master-desc">Data size:</div><div id="master-data-size">0 B</div>
+        </div>
+    </div>
+    <div class="tool-icon-wrap">
+        <div class="tool-icon-separator"></div>
+        <div id="master-delete-icon" class="delete-icon" title="全て削除">
+            <svg class="tool-icon-disabled"><use xlink:href="#delete" /></svg>
+        </div>
+    </div>
+</div>
+</div>
+
+<div id="info-line-bottom" class="info-line">
+<div id="unfocus" class="info-line-content"><div>キーが選択されていません</div></div>
+<div id="unset" class="info-line-content info-line-content-height" style="display: none">
+    <div id="unset-key-tag" class="tag key-tag"></div>
+    <div id="unset-key-explain">未設定のキー</div>
+    <input type="file" id="unset-file" style="display: none">
+    <div id="file-btn1" class="file-btn1-leave">オーディオファイルを読み込む</div>
+    <div class="tool-icon-wrap">
+        <div class="tool-icon-separator"></div>
+        <div class="tool-icon setting-icon" title="設定">
+            <svg class="tool-icon-leave"><use xlink:href="#setting" /></svg>
+        </div>
+    </div>
+</div>
+<div id="controller" class="info-line-content info-line-content-height" style="display: none">
+    <div id="ctrl-key-tag" class="tag key-tag"></div>
+    <div id="audio-line">
+        <div id="filename-line"></div>
+        <div id="play-line">
+            <div id="progress-line">
+                <div><canvas id="progress-bar" width="200" height="11"></canvas></div>
+                <div id="time-line"><div id="progress-time">0:00</div> <div>/</div> <div id="total-time"></div></div>
+            </div>
+            <div id="audio-stop-btn" class="stop-btn">
+                <div id="audio-stop-square" class="stop-square stop-square-leave" title="停止"></div>
+            </div>
+        </div>
+    </div>
+    <div id="type-radio-wrap">
+        <fieldset id="type-radio">
+            <label for="reset-type" id="type-radio-left" title="押下する度にオーディオを最初から起動します。">Reset</label>
+            <input type="radio" name="launch-type" value="reset" id="reset-type" class="radio">
+            <label for="hold-type" title="押下している間だけオーディオを再生します。">Hold</label>
+            <input type="radio" name="launch-type" value="hold" id="hold-type" class="radio">
+            <label for="switch-type" id="type-radio-right" title="押下するとオーディオを起動します。オーディオの再生中に押下すると停止します。">Switch</label>
+            <input type="radio" name="launch-type" value="switch" id="switch-type" class="radio">
+        </fieldset>
+    </div>
+    <div id="loop-btn-wrap">
+        <div id="loop-btn">
+            <div id="select-box" class="select-box-leave"></div>
+            <div id="select-box-label">Loop</div>
+        </div>
+    </div>
+    <div class="slider-wrap">
+        <div id="audio-volume-slider" class="slider" data-slider-index="1"></div>
+        <div class="volume-text">Vol:</div>
+        <div id="audio-volume" class="volume volume-style">50</div>
+    </div>
+    <div class="tool-icon-wrap">
+        <div class="tool-icon-separator"></div>
+        <div class="tool-icon setting-icon" title="設定">
+            <svg class="tool-icon-leave"><use xlink:href="#setting" /></svg>
+        </div>
+        <div class="tool-icon delete-icon" title="削除">
+            <svg class="tool-icon-leave"><use xlink:href="#delete" /></svg>
+        </div>
+    </div>
+</div>
+<div id="reference-detail" class="info-line-content info-line-content-height" style="display: none">
+    <div id="refer-key-tag" class="tag key-tag"></div>
+    <div id="refer-type-disp"></div>
+    <div id="refer-sequence"><div id="refer-sequence-content"></div></div>
+    <div class="tool-icon-wrap">
+        <div class="tool-icon-separator"></div>
+        <div class="tool-icon setting-icon" title="設定">
+            <svg class="tool-icon-leave"><use xlink:href="#setting" /></svg>
+        </div>
+        <div class="tool-icon delete-icon" title="削除">
+            <svg class="tool-icon-leave"><use xlink:href="#delete" /></svg>
+        </div>
+    </div>
+</div>
+<div id="load-anim" class="info-line-content" style="display: none">
+    <div id="anime-line">
+        <div id="load-text">Loading</div>
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+</div>
+</div>
+
+</div>
+
+<div id="launcher">
+<div id="tab-bar">
+    <div class="layer most-left active-layer layer1">1</div>
+    <div class="layer other-right inactive-layer">2</div>
+    <div class="layer other-right inactive-layer">3</div>
+    <div class="layer other-right inactive-layer">4</div>
+    <div class="layer other-right inactive-layer">5</div>
+    <div class="layer other-right inactive-layer">6</div>
+    <div class="layer other-right inactive-layer">7</div>
+    <div class="layer other-right inactive-layer">8</div>
+    <div class="layer other-right inactive-layer">9</div>
+    <div class="layer other-right inactive-layer">10</div>
+    <div class="layer other-right inactive-layer">11</div>
+    <div class="layer other-right inactive-layer">12</div>
+    <div id="rel-fnkey-btn" class="inactive-rel-fnkey" title="ファンクションキー押下と連動: 無効">F1 - F12</div>
+</div>
+<div id="keyboard">
+<div id="main-key">
+<div id="row1" class="linear shift-row">
+    <div class="key key-square">1</div>
+    <div class="key key-square">2</div>
+    <div class="key key-square">3</div>
+    <div class="key key-square">4</div>
+    <div class="key key-square">5</div>
+    <div class="key key-square">6</div>
+    <div class="key key-square">7</div>
+    <div class="key key-square">8</div>
+    <div class="key key-square">9</div>
+    <div class="key key-square">0</div>
+</div>
+<div id="row2" class="linear shift-row">
+    <div class="key key-square">Q</div>
+    <div class="key key-square">W</div>
+    <div class="key key-square">E</div>
+    <div class="key key-square">R</div>
+    <div class="key key-square">T</div>
+    <div class="key key-square">Y</div>
+    <div class="key key-square">U</div>
+    <div class="key key-square">I</div>
+    <div class="key key-square">O</div>
+    <div class="key key-square">P</div>
+</div>
+<div id="row3" class="linear shift-row">
+    <div class="key key-square">A</div>
+    <div class="key key-square">S</div>
+    <div class="key key-square">D</div>
+    <div class="key key-square">F</div>
+    <div class="key key-square">G</div>
+    <div class="key key-square">H</div>
+    <div class="key key-square">J</div>
+    <div class="key key-square">K</div>
+    <div class="key key-square">L</div>
+    <div class="key key-square">+</div>
+</div>
+<div id="row4" class="linear shift-row">
+    <div class="key key-square">Z</div>
+    <div class="key key-square">X</div>
+    <div class="key key-square">C</div>
+    <div class="key key-square">V</div>
+    <div class="key key-square">B</div>
+    <div class="key key-square">N</div>
+    <div class="key key-square">M</div>
+    <div class="key key-square">&lt;</div>
+    <div class="key key-square">&gt;</div>
+    <div class="key key-square">?</div>
+</div>
+    <div id="space-key" class="key">■</div>
+</div>
+
+<div id="ten-key">
+<div class="linear">
+    <div class="dummy-key key-square"></div>
+    <div class="key key-square">/</div>
+    <div class="key key-square">*</div>
+</div>
+<div class="linear">
+    <div class="key key-square">7</div>
+    <div class="key key-square">8</div>
+    <div class="key key-square">9</div>
+</div>
+<div class="linear">
+    <div class="key key-square">4</div>
+    <div class="key key-square">5</div>
+    <div class="key key-square">6</div>
+</div>
+<div class="linear">
+    <div class="key key-square">1</div>
+    <div class="key key-square">2</div>
+    <div class="key key-square">3</div>
+</div>
+<div class="linear">
+    <div id="t0-key" class="key">0</div>
+    <div class="key key-square">.</div>
+</div>
+<!--<div id="resize-knob"></div>-->
+</div>
+</div>
+</div>
+
+<div id="dform-modal" class="modal" style="display: none">
+<div id="dialog-form">
+<div id="dform-title">
+    <div id="title"></div>
+    <div id="close-btn" class="close-btn-leave">×</div>
+</div>
+<div id="dform-content">
+<fieldset>
+    <legend>コンテンツ</legend>
+    <div class="fieldset-content">
+        <input type="radio" name="content-radio" value="audio" id="audio-type" checked><!--
+    ---><label for="audio-type" class="label-margin">オーディオ</label>
+        <input type="radio" name="content-radio" value="reference" id="reference-type"><!--
+    ---><label for="reference-type">参照</label>
+    </div>
+</fieldset>
+
+<div id="audio-form">
+    <div id="file-select-wrapper">
+        <input type="file" id="audio-form-file" style="display: none">
+        <div id="file-btn2" class="dform-btn dform-btn-leave">ファイルを選択</div>
+        <div id="audio-form-filename">選択されていません</div>
+    </div>
+    
+    <fieldset>
+        <legend>起動タイプ</legend>
+        <div class="fieldset-content">
+            <input type="radio" name="launch-type-radio" value="reset" id="reset" checked><!--
+        ---><label for="reset" class="label-margin">Reset</label>
+            <input type="radio" name="launch-type-radio" value="hold" id="hold"><!--
+        ---><label for="hold" class="label-margin">Hold</label>
+            <input type="radio" name="launch-type-radio" value="switch" id="switch"><!--
+        ---><label for="switch">Switch</label>
+        </div>
+    </fieldset>
+    
+    <div id="loop-wrapper">
+        <input type="checkbox" value="loop" id="loop"><!--
+    ---><label for="loop">Loop</label>
+    </div>
+</div>
+
+<div id="reference-form" style="display: none">
+    <fieldset>
+        <legend>参照タイプ</legend>
+        <div class="fieldset-content">
+            <input type="radio" name="reference-type-radio" value="multipush" id="multipush" checked><!--
+        ---><label for="multipush" class="label-margin">一括押下</label>
+            <input type="radio" name="reference-type-radio" value="multistop" id="multistop"><!--
+        ---><label for="multistop" class="label-margin">一括停止</label>
+            <input type="radio" name="reference-type-radio" value="changeLayer" id="changeLayer"><!--
+        ---><label for="changeLayer">レイヤー変更</label>
+        </div>
+    </fieldset>
+
+    <div id="select-line">
+        <select name="layer">
+            <option value="0">Layer 1</option>
+            <option value="1">Layer 2</option>
+            <option value="2">Layer 3</option>
+            <option value="3">Layer 4</option>
+            <option value="4">Layer 5</option>
+            <option value="5">Layer 6</option>
+            <option value="6">Layer 7</option>
+            <option value="7">Layer 8</option>
+            <option value="8">Layer 9</option>
+            <option value="9">Layer 10</option>
+            <option value="10">Layer 11</option>
+            <option value="11">Layer 12</option>
+        </select>
+        <div id="reftype-prompt">一括押下するキーを選択</div>
+    </div>
+    
+    <div id="key-checkboxes-wrapper">
+        <div id="main-key-checkboxes" class="key-block">
+            <div class="checkbox-row">
+                <div class="cl-wrap"><input type="checkbox" value="0" id="K1"><label for="K1">1</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="1" id="K2"><label for="K2">2</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="2" id="K3"><label for="K3">3</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="3" id="K4"><label for="K4">4</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="4" id="K5"><label for="K5">5</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="5" id="K6"><label for="K6">6</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="6" id="K7"><label for="K7">7</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="7" id="K8"><label for="K8">8</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="8" id="K9"><label for="K9">9</label></div>
+                <div class="end-cl-wrap"><input type="checkbox" value="9" id="K0"><label for="K0">0</label></div>
+            </div>
+            <div class="checkbox-row">
+                <div class="cl-wrap"><input type="checkbox" value="10" id="Q"><label for="Q">Q</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="11" id="W"><label for="W">W</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="12" id="E"><label for="E">E</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="13" id="R"><label for="R">R</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="14" id="T"><label for="T">T</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="15" id="Y"><label for="Y">Y</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="16" id="U"><label for="U">U</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="17" id="I"><label for="I">I</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="18" id="O"><label for="O">O</label></div>
+                <div class="end-cl-wrap"><input type="checkbox" value="19" id="P"><label for="P">P</label></div>
+            </div>
+            <div class="checkbox-row">
+                <div class="cl-wrap"><input type="checkbox" value="20" id="A"><label for="A">A</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="21" id="S"><label for="S">S</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="22" id="D"><label for="D">D</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="23" id="F"><label for="F">F</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="24" id="G"><label for="G">G</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="25" id="H"><label for="H">H</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="26" id="J"><label for="J">J</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="27" id="K"><label for="K">K</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="28" id="L"><label for="L">L</label></div>
+                <div class="end-cl-wrap"><input type="checkbox" value="29" id="pl"><label for="pl">+</label></div>
+            </div>
+            <div class="checkbox-row">
+                <div class="cl-wrap"><input type="checkbox" value="30" id="Z"><label for="Z">Z</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="31" id="X"><label for="X">X</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="32" id="C"><label for="C">C</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="33" id="V"><label for="V">V</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="34" id="B"><label for="B">B</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="35" id="N"><label for="N">N</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="36" id="M"><label for="M">M</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="37" id="lt"><label for="lt">&lt;</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="38" id="gt"><label for="gt">&gt;</label></div>
+                <div class="end-cl-wrap"><input type="checkbox" value="39" id="qm"><label for="qm">?</label></div>
+            </div>
+            <div class="checkbox-row">
+                <div class="cl-wrap"><input type="checkbox" value="40" id="sq"><label for="sq">&#9632;</label></div>
+            </div>
+        </div>
+        <div id="ten-key-checkboxes" class="key-block">
+            <div class="checkbox-row">
+                <div class="dummy-cl-wrap"></div>
+                <div class="cl-wrap"><input type="checkbox" value="41" id="sl"><label for="sl">/</label></div>
+                <div class="end-cl-wrap"><input type="checkbox" value="42" id="as"><label for="as">*</label></div>
+            </div>
+            <div class="checkbox-row">
+                <div class="cl-wrap"><input type="checkbox" value="43" id="T7"><label for="T7">T7</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="44" id="T8"><label for="T8">T8</label></div>
+                <div class="end-cl-wrap"><input type="checkbox" value="45" id="T9"><label for="T9">T9</label></div>
+            </div>
+            <div class="checkbox-row">
+                <div class="cl-wrap"><input type="checkbox" value="46" id="T4"><label for="T4">T4</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="47" id="T5"><label for="T5">T5</label></div>
+                <div class="end-cl-wrap"><input type="checkbox" value="48" id="T6"><label for="T6">T6</label></div>
+            </div>
+            <div class="checkbox-row">
+                <div class="cl-wrap"><input type="checkbox" value="49" id="T1"><label for="T1">T1</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="50" id="T2"><label for="T2">T2</label></div>
+                <div class="end-cl-wrap"><input type="checkbox" value="51" id="T3"><label for="T3">T3</label></div>
+            </div>
+            <div class="checkbox-row">
+                <div class="cl-wrap"><input type="checkbox" value="52" id="T0"><label for="T0">T0</label></div>
+                <div class="cl-wrap"><input type="checkbox" value="53" id="pe"><label for="pe">.</label></div>
+            </div>
+        </div>
+    </div>
+    <div id="checkboxes-bottom">
+        <div id="clear-btn" class="dform-btn dform-btn-leave">クリア</div>
+        <div id="selected-key-counter" class="key-count-info">0</div>
+        <div id="selected-key-prompt" class="key-count-info">個のキーが選択されています</div>
+    </div>
+</div>
+<div id="dform-btns">
+    <div id="dform-ok-btn" class="dform-btn dform-btn-leave">OK</div>
+    <div id="dform-cancel-btn" class="dform-btn dform-btn-leave">キャンセル</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="dialog-modal" class="modal" style="display: none">
+<div id="dialog">
+<div id="dialog-content">
+    <div id="error-icon" class="error-dialog-element">
+        <svg><use xlink:href="#error" /></svg>
+    </div>
+    <div id="dialog-caption"></div>
+    <div id="delete-desc" class="delete-dialog-element">
+        <span id="delete-content-number"></span> 個のキーに割り当てられているコンテンツを削除します
+    </div>
+    <div id="error-details" class="error-dialog-element">
+    </div>
+    <div id="dialog-btns-wrap">
+        <div id="dialog-btns">
+            <div id="dialog-ok-btn" class="dialog-btn dialog-btn-leave">OK</div>
+            <div id="dialog-cancel-btn" class="delete-dialog-element dialog-btn dialog-btn-leave">キャンセル</div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+</body>
+
+</html>
