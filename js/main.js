@@ -189,10 +189,10 @@ jQuery(function ($) {
         main.relFnkeyIsActive = !main.relFnkeyIsActive;
         if (main.relFnkeyIsActive) {
             main.$relFnkeyBtn.attr('class', 'active-rel-fnkey');
-            main.$relFnkeyBtn.attr('title', 'ファンクションキー押下と連動: 有効');
+            main.$relFnkeyBtn.attr('title', 'ファンクションキーと連動: 有効');
         } else {
             main.$relFnkeyBtn.attr('class', 'inactive-rel-fnkey');
-            main.$relFnkeyBtn.attr('title', 'ファンクションキー押下と連動: 無効');
+            main.$relFnkeyBtn.attr('title', 'ファンクションキーと連動: 無効');
         }
     });
     
