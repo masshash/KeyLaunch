@@ -590,7 +590,7 @@ class LaunchKey {
         if (eventType == KEYDOWN) {
             if (source.pushed) return;
             source.pushed = true;
-            this.E_mousedown()();
+            if (main.pushFocusIsActive) this.E_mousedown()();
         } else if (eventType == KEYUP) {
             source.pushed = false;
         }

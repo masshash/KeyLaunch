@@ -154,12 +154,11 @@ header {
     background-color: #009944;
 }
 
-#rel-fnkey-btn {
-    width: 61px;
+.tab-bar-btn {
     height: 24px;
     border-width: 2px;
     border-style: solid;
-    margin: 6px 15px;
+    margin: 6px 0 6px 15px;
     font-size: 12px;
     font-weight: bold;
     text-align: center;
@@ -167,13 +166,21 @@ header {
     cursor: pointer;
 }
 
-.active-rel-fnkey {
+#rel-fnkey-btn {
+    width: 61px;
+}
+
+#push-focus-btn {
+    width: 45px;
+}
+
+.active-tab-bar-btn {
     background-color: #F6931F;
     border-color: #333;
     color: #000;
 }
 
-.inactive-rel-fnkey {
+.inactive-tab-bar-btn {
     border-color: #000;
     color: #666;
 }

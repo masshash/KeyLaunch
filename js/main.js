@@ -28,7 +28,7 @@ const global = {
 const main = {
     relFnkeyIsActive:  false,
     pushFocusIsActive: true,
-    $relFnkeyBtn:      null,
+    $tabBars:          null,
     $launcher:         null
 }
 
@@ -40,8 +40,8 @@ const $window = $(window);
 jQuery(function ($) {
     let $layers = $('.layer');
     global.$layers = $layers;
-    let $relFnkeyBtn = $('#rel-fnkey-btn');
-    main.$relFnkeyBtn = $relFnkeyBtn;
+    let $tabBars = $('.tab-bar-btn');
+    main.$tabBars = $tabBars;
     
     let $keys = $('.key');
     let $keySquares = $('.key-square');
@@ -73,7 +73,7 @@ jQuery(function ($) {
     
     $('#information-panel').mousedown(LaunchKey.E_keepSelectedMousedownHandler);
     $layers.mousedown(LaunchKey.E_keepSelectedMousedownHandler);
-    $relFnkeyBtn.mousedown(LaunchKey.E_keepSelectedMousedownHandler);
+    $tabBars.mousedown(LaunchKey.E_keepSelectedMousedownHandler);
     $(document).mousedown(LaunchKey.E_mousedownHandler);
     $(document.documentElement).mousedown(function($event) {
         if (event.clientX >= this.offsetWidth ||
@@ -141,8 +141,12 @@ jQuery(function ($) {
         let preLayer = global.currentLayer
         if (nextLayer == preLayer) return;
         
-        $($layers[preLayer]).removeClass(`active-layer layer${preLayer+1}`).addClass('inactive-layer');
-        $($layers[nextLayer]).removeClass('inactive-layer').addClass(`active-layer layer${nextLayer+1}`);
+        $($layers[preLayer])
+            .removeClass(`active-layer layer${preLayer+1}`)
+            .addClass('inactive-layer');
+        $($layers[nextLayer])
+            .removeClass('inactive-layer')
+            .addClass(`active-layer layer${nextLayer+1}`);
         
         let infoPanel = global.infoPanel;
         infoPanel.master1.$layerDisps[preLayer].id = '';
@@ -185,14 +189,29 @@ jQuery(function ($) {
         }
     });
     
-    $relFnkeyBtn.click(function($event) {
-        main.relFnkeyIsActive = !main.relFnkeyIsActive;
-        if (main.relFnkeyIsActive) {
-            main.$relFnkeyBtn.attr('class', 'active-rel-fnkey');
-            main.$relFnkeyBtn.attr('title', 'ファンクションキーと連動: 有効');
+    $tabBars.click(function($event) {
+        let active, title;
+        switch (this.id) {
+            case 'rel-fnkey-btn':
+                active = main.relFnkeyIsActive = !main.relFnkeyIsActive;
+                tabBar = $(main.$tabBars[0]);
+                title = 'ファンクションキーと連動: ';
+                break;
+            case 'push-focus-btn':
+                active = main.pushFocusIsActive = !main.pushFocusIsActive;
+                tabBar = $(main.$tabBars[1]);
+                title = 'キー押下とフォーカスを連動: ';
+                break;
+        }
+        
+        if (active) {
+            tabBar.removeClass('inactive-tab-bar-btn')
+                  .addClass('active-tab-bar-btn');
+            tabBar.attr('title', title + '有効');
         } else {
-            main.$relFnkeyBtn.attr('class', 'inactive-rel-fnkey');
-            main.$relFnkeyBtn.attr('title', 'ファンクションキーと連動: 無効');
+            tabBar.removeClass('active-tab-bar-btn')
+                  .addClass('inactive-tab-bar-btn');
+            tabBar.attr('title', title + '無効');
         }
     });
     
