@@ -5,5 +5,5 @@ KeyLaunch はキーボードによるオーディオランチャーです。読�
 
 各キーは、オーディオを起動する以外にも、1つのキーから他のキーを一括起動（または停止）したり、レイヤーを変更したりできます。
 
-### Web ページ ###
+## Web ページ ##
 [https://masshash.github.io/KeyLaunch](https://masshash.github.io/KeyLaunch)
