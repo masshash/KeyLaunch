@@ -10,6 +10,7 @@ const global = {
     openedDialogs:    new Set(),
     workers:          new Set(),
     allContentsCount: 0,
+    preFocusIndex:    -1,
     
     buttonStates: {
         'stop-btn':   { clicked: false, entered: false},
@@ -381,74 +382,176 @@ function beforeunloadHandler($event) {
     $event.returnValue = '行った変更は保存されません。';
 }
 
+const
+M1=0,  M2=1,  M3=2,  M4=3,  M5=4,  M6=5,  M7=6,  M8=7,  M9=8,  M0=9,
+ Q=10,  W=11,  E=12,  R=13,  T=14,  Y=15,  U=16,  I=17,  O=18,  P=19,
+ A=20,  S=21,  D=22,  F=23,  G=24,  H=25,  J=26,  K=27,  L=28, PL=29,
+ Z=30,  X=31,  C=32,  V=33,  B=34,  N=35,  M=36, LT=37, GT=38, QM=39,
+SQ=40,
+
+SL=41, AS=42,
+T7=43, T8=44, T9=45,
+T4=46, T5=47, T6=48,
+T1=49, T2=50, T3=51,
+T0=52, PE=53;
+
 function keyEventHandlerFactory(keyEvent) {
     return function($event) {
         if (global.dragging || global.openedDialogs.size) return;
         let launchKeyList = global.launchKeyList;
+        let fidx, pfidx;
         switch ($event.keyCode) {
-            /* 1*/case 49:  launchKeyList[0].keyAction(keyEvent);  break;
-            /* 2*/case 50:  launchKeyList[1].keyAction(keyEvent);  break;
-            /* 3*/case 51:  launchKeyList[2].keyAction(keyEvent);  break;
-            /* 4*/case 52:  launchKeyList[3].keyAction(keyEvent);  break;
-            /* 5*/case 53:  launchKeyList[4].keyAction(keyEvent);  break;
-            /* 6*/case 54:  launchKeyList[5].keyAction(keyEvent);  break;
-            /* 7*/case 55:  launchKeyList[6].keyAction(keyEvent);  break;
-            /* 8*/case 56:  launchKeyList[7].keyAction(keyEvent);  break;
-            /* 9*/case 57:  launchKeyList[8].keyAction(keyEvent);  break;
-            /* 0*/case 48:  launchKeyList[9].keyAction(keyEvent);  break;
+            case 49:  launchKeyList[M1].keyAction(keyEvent); break;
+            case 50:  launchKeyList[M2].keyAction(keyEvent); break;
+            case 51:  launchKeyList[M3].keyAction(keyEvent); break;
+            case 52:  launchKeyList[M4].keyAction(keyEvent); break;
+            case 53:  launchKeyList[M5].keyAction(keyEvent); break;
+            case 54:  launchKeyList[M6].keyAction(keyEvent); break;
+            case 55:  launchKeyList[M7].keyAction(keyEvent); break;
+            case 56:  launchKeyList[M8].keyAction(keyEvent); break;
+            case 57:  launchKeyList[M9].keyAction(keyEvent); break;
+            case 48:  launchKeyList[M0].keyAction(keyEvent); break;
 
-            /* Q*/case 81:  launchKeyList[10].keyAction(keyEvent); break;
-            /* W*/case 87:  launchKeyList[11].keyAction(keyEvent); break;
-            /* E*/case 69:  launchKeyList[12].keyAction(keyEvent); break;
-            /* R*/case 82:  launchKeyList[13].keyAction(keyEvent); break;
-            /* T*/case 84:  launchKeyList[14].keyAction(keyEvent); break;
-            /* Y*/case 89:  launchKeyList[15].keyAction(keyEvent); break;
-            /* U*/case 85:  launchKeyList[16].keyAction(keyEvent); break;
-            /* I*/case 73:  launchKeyList[17].keyAction(keyEvent); break;
-            /* O*/case 79:  launchKeyList[18].keyAction(keyEvent); break;
-            /* P*/case 80:  launchKeyList[19].keyAction(keyEvent); break;
+            case 81:  launchKeyList[Q].keyAction(keyEvent);  break;
+            case 87:  launchKeyList[W].keyAction(keyEvent);  break;
+            case 69:  launchKeyList[E].keyAction(keyEvent);  break;
+            case 82:  launchKeyList[R].keyAction(keyEvent);  break;
+            case 84:  launchKeyList[T].keyAction(keyEvent);  break;
+            case 89:  launchKeyList[Y].keyAction(keyEvent);  break;
+            case 85:  launchKeyList[U].keyAction(keyEvent);  break;
+            case 73:  launchKeyList[I].keyAction(keyEvent);  break;
+            case 79:  launchKeyList[O].keyAction(keyEvent);  break;
+            case 80:  launchKeyList[P].keyAction(keyEvent);  break;
 
-            /* A*/case 65:  launchKeyList[20].keyAction(keyEvent); break;
-            /* S*/case 83:  launchKeyList[21].keyAction(keyEvent); break;
-            /* D*/case 68:  launchKeyList[22].keyAction(keyEvent); break;
-            /* F*/case 70:  launchKeyList[23].keyAction(keyEvent); break;
-            /* G*/case 71:  launchKeyList[24].keyAction(keyEvent); break;
-            /* H*/case 72:  launchKeyList[25].keyAction(keyEvent); break;
-            /* J*/case 74:  launchKeyList[26].keyAction(keyEvent); break;
-            /* K*/case 75:  launchKeyList[27].keyAction(keyEvent); break;
-            /* L*/case 76:  launchKeyList[28].keyAction(keyEvent); break;
-            /* +*/case 187: launchKeyList[29].keyAction(keyEvent); break;
+            case 65:  launchKeyList[A].keyAction(keyEvent);  break;
+            case 83:  launchKeyList[S].keyAction(keyEvent);  break;
+            case 68:  launchKeyList[D].keyAction(keyEvent);  break;
+            case 70:  launchKeyList[F].keyAction(keyEvent);  break;
+            case 71:  launchKeyList[G].keyAction(keyEvent);  break;
+            case 72:  launchKeyList[H].keyAction(keyEvent);  break;
+            case 74:  launchKeyList[J].keyAction(keyEvent);  break;
+            case 75:  launchKeyList[K].keyAction(keyEvent);  break;
+            case 76:  launchKeyList[L].keyAction(keyEvent);  break;
+            case 187: launchKeyList[PL].keyAction(keyEvent); break;
 
-            /* Z*/case 90:  launchKeyList[30].keyAction(keyEvent); break;
-            /* X*/case 88:  launchKeyList[31].keyAction(keyEvent); break;
-            /* C*/case 67:  launchKeyList[32].keyAction(keyEvent); break;
-            /* V*/case 86:  launchKeyList[33].keyAction(keyEvent); break;
-            /* B*/case 66:  launchKeyList[34].keyAction(keyEvent); break;
-            /* N*/case 78:  launchKeyList[35].keyAction(keyEvent); break;
-            /* M*/case 77:  launchKeyList[36].keyAction(keyEvent); break;
-            /* <*/case 188: launchKeyList[37].keyAction(keyEvent); break;
-            /* >*/case 190: launchKeyList[38].keyAction(keyEvent); break;
-            /* ?*/case 191: launchKeyList[39].keyAction(keyEvent); break;
+            case 90:  launchKeyList[Z].keyAction(keyEvent);  break;
+            case 88:  launchKeyList[X].keyAction(keyEvent);  break;
+            case 67:  launchKeyList[C].keyAction(keyEvent);  break;
+            case 86:  launchKeyList[V].keyAction(keyEvent);  break;
+            case 66:  launchKeyList[B].keyAction(keyEvent);  break;
+            case 78:  launchKeyList[N].keyAction(keyEvent);  break;
+            case 77:  launchKeyList[M].keyAction(keyEvent);  break;
+            case 188: launchKeyList[LT].keyAction(keyEvent); break;
+            case 190: launchKeyList[GT].keyAction(keyEvent); break;
+            case 191: launchKeyList[QM].keyAction(keyEvent); break;
 
-            /* ■*/case 32:  launchKeyList[40].keyAction(keyEvent); break;
+            case 32:  launchKeyList[SQ].keyAction(keyEvent); break;
             
-            /* /*/case 111: launchKeyList[41].keyAction(keyEvent); break;
-            /* **/case 106: launchKeyList[42].keyAction(keyEvent); break;
+            case 111: launchKeyList[SL].keyAction(keyEvent); break;
+            case 106: launchKeyList[AS].keyAction(keyEvent); break;
 
-            /*T7*/case 103: launchKeyList[43].keyAction(keyEvent); break;
-            /*T8*/case 104: launchKeyList[44].keyAction(keyEvent); break;
-            /*T9*/case 105: launchKeyList[45].keyAction(keyEvent); break;
+            case 103: launchKeyList[T7].keyAction(keyEvent); break;
+            case 104: launchKeyList[T8].keyAction(keyEvent); break;
+            case 105: launchKeyList[T9].keyAction(keyEvent); break;
             
-            /*T4*/case 100: launchKeyList[46].keyAction(keyEvent); break;
-            /*T5*/case 101: launchKeyList[47].keyAction(keyEvent); break;
-            /*T6*/case 102: launchKeyList[48].keyAction(keyEvent); break;
+            case 100: launchKeyList[T4].keyAction(keyEvent); break;
+            case 101: launchKeyList[T5].keyAction(keyEvent); break;
+            case 102: launchKeyList[T6].keyAction(keyEvent); break;
             
-            /*T1*/case 97:  launchKeyList[49].keyAction(keyEvent); break;
-            /*T2*/case 98:  launchKeyList[50].keyAction(keyEvent); break;
-            /*T3*/case 99:  launchKeyList[51].keyAction(keyEvent); break;
+            case 97:  launchKeyList[T1].keyAction(keyEvent); break;
+            case 98:  launchKeyList[T2].keyAction(keyEvent); break;
+            case 99:  launchKeyList[T3].keyAction(keyEvent); break;
             
-            /*T0*/case 96:  launchKeyList[52].keyAction(keyEvent); break;
-            /* .*/case 110: launchKeyList[53].keyAction(keyEvent); break;
+            case 96:  launchKeyList[T0].keyAction(keyEvent); break;
+            case 110: launchKeyList[PE].keyAction(keyEvent); break;
+            
+            /* ↑*/
+            case 38:
+                if (keyEvent == KEYUP || !global.$focusedKey) return;
+                fidx = global.$focusedKey.index;
+                pfidx = fidx;
+                if (fidx <= M0) {
+                    fidx = SQ;
+                } else if (fidx == SQ && global.preFocusIndex != -1) {
+                    let gpfidx = global.preFocusIndex;
+                    fidx = (gpfidx <= M0) ? gpfidx + 30 : gpfidx;
+                } else if (fidx <= SQ) {
+                    fidx -= 10;
+                } else if (fidx == T0 && global.preFocusIndex != -1) {
+                    let gpfidx = global.preFocusIndex;
+                    fidx = (gpfidx == T7 || gpfidx == T1) ? T1 : T2;
+                } else {
+                    switch (fidx) {
+                        case SL: case AS: fidx += 11; break;
+                        case T7: fidx = T0; break;
+                        case PE: fidx = T3; break;
+                        default: fidx -= 3;
+                    }
+                }
+                global.launchKeyList[fidx].E_mousedown()();
+                global.preFocusIndex = pfidx;
+                break;
+                
+            /* ↓*/
+            case 40:
+                if (keyEvent == KEYUP || !global.$focusedKey) return;
+                fidx = global.$focusedKey.index;
+                pfidx = fidx;
+                if (fidx <= Z) {
+                    fidx += 10;
+                } else if (fidx <= QM) {
+                    fidx = SQ;
+                } else if (fidx == SQ) {
+                    let gpfidx = global.preFocusIndex;
+                    if (gpfidx == -1) {
+                        fidx = M1;
+                    } else {
+                        fidx = (gpfidx <= M0) ? gpfidx : gpfidx - 30;
+                    }
+                } else if(fidx == T0 && global.preFocusIndex != -1) {
+                    let gpfidx = global.preFocusIndex;
+                    fidx = (gpfidx == T1 || gpfidx == T7) ? T7 : SL;
+                } else {
+                    switch (fidx) {
+                        case T2: case T3: fidx += 2; break;
+                        case T0: fidx = T7; break;
+                        case PE: fidx = AS; break;
+                        default: fidx += 3;
+                    }
+                }
+                global.launchKeyList[fidx].E_mousedown()();
+                global.preFocusIndex = pfidx;
+                break;
+            
+            /*→*/
+            case 39:
+                if (keyEvent == KEYUP || !global.$focusedKey) return;
+                fidx = global.$focusedKey.index;
+                switch (fidx) {
+                    case M0: fidx = SL; break; case AS: fidx = M1; break;
+                    case  P: fidx = T7; break; case T9: fidx =  Q; break;
+                    case PL: fidx = T4; break; case T6: fidx =  A; break;
+                    case QM: fidx = T1; break; case T3: fidx =  Z; break;
+                    case SQ: fidx = T0; break; case PE: fidx = SQ; break;
+                    default: fidx += 1;
+                }
+                global.launchKeyList[fidx].E_mousedown()();
+                break;
+            
+            /*←*/
+            case 37:
+                if (keyEvent == KEYUP || !global.$focusedKey) return;
+                fidx = global.$focusedKey.index;
+                switch (fidx) {
+                    case SL: fidx = M0; break; case M1: fidx = AS; break;
+                    case T7: fidx =  P; break; case  Q: fidx = T9; break;
+                    case T4: fidx = PL; break; case  A: fidx = T6; break;
+                    case T1: fidx = QM; break; case  Z: fidx = T3; break;
+                    case T0: fidx = SQ; break; case SQ: fidx = PE; break;
+                    default: fidx -= 1;
+                }
+                global.launchKeyList[fidx].E_mousedown()();
+                break;
             
             /*delete*/
             case 46:
@@ -474,8 +577,8 @@ function keyEventHandlerFactory(keyEvent) {
             case 122:
             case 123:
                 if (main.relFnkeyIsActive) {
-                    let index = $event.keyCode - 112;
-                    $(global.$layers[index]).click();
+                    let layerIndex = $event.keyCode - 112;
+                    $(global.$layers[layerIndex]).click();
                     break;
                 };
 

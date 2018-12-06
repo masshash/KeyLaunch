@@ -134,6 +134,7 @@ class LaunchKey {
             this.S_borderColor(keydeco.select);
             
             global.infoPanel.attach(this);
+            global.preFocusIndex = -1;
         }
     }
     static E_keepSelectedMousedownHandler($event) {
@@ -144,11 +145,6 @@ class LaunchKey {
             global.keepSelected = false;
             return;
         }
-        
-        /* switch ($event.target.id) {
-            case 'resize-knob':
-            case 'tab-bar': return;
-        }*/
         
         if (global.openedDialogs.size) return;
         
@@ -162,6 +158,7 @@ class LaunchKey {
             global.$focusedKey = null;
             
             global.infoPanel.attach();
+            global.preFocusIndex = -1;
         }
     }
     
