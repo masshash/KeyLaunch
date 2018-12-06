@@ -60,21 +60,6 @@ const keydeco = {
 const AUDIO     = Symbol('audio');
 const REFERENCE = Symbol('reference');
 
-function rgbToHex(color) {
-    let hex = '#';
-    let params = color.split(', ');
-    let rgb = [
-        Number(params[0].substr(4)).toString(16),
-        Number(params[1]).toString(16),
-        Number(params[2].slice(0, -1)).toString(16)
-    ];
-    for (let c of rgb) {
-        if (c.length == 1) c = '0' + c;
-        hex += c;
-    }
-    return hex;
-}
-
 function addWorker(content) {
     global.workers.add(content);
     return global.workers.size;
@@ -490,15 +475,7 @@ class LaunchKey {
     }
     
     isSelected() {
-        let borderColor = this.$elem[0].style.borderColor;
-        if (!borderColor) return false;
-        borderColor = rgbToHex(borderColor);
-        let selectColor = keydeco.select;
-        if (selectColor.length == 4) {
-            let [_, r, g, b] = selectColor;
-            selectColor = _+r+r+g+g+b+b;
-        }
-        return selectColor.toLowerCase() == borderColor.toLowerCase();
+        return this == global.$focusedKey;
     }
     
     name() {
