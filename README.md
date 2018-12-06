@@ -7,3 +7,8 @@ KeyLaunch はキーボードによるオーディオランチャーです。読�
 
 ## Web ページ ##
 [https://masshash.github.io/KeyLaunch](https://masshash.github.io/KeyLaunch)
+
+## To do ##
+- KeyLaunch の詳細や使い方などを説明したドキュメントを作成。
+- オンラインとローカルのストレージに設定データを保存できるようにする。
+
