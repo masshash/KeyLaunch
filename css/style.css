@@ -84,15 +84,17 @@ header {
 }
 
 #tab-bar {
-    height: 40px;
-    display: flex;
     background-color: #111;
+    display: flex;
+    height: 40px;
+    position: relative;
 }
 
 .layer {
     width: 24px;
     height: 24px;
-    border: 2px solid #000;
+    border-width: 2px;
+    border-style: solid;
     font-size: 12px;
     font-weight: bold;
     text-align: center;
@@ -101,15 +103,16 @@ header {
 }
 
 .most-left {
-    margin: 6px 0 6px 10px;
+    margin: 6px 0 6px 6px;
 }
 
 .other-right {
-    margin: 6px 0 6px 5px;
+    margin: 6px 0 6px 6px;
 }
 
 .inactive-layer {
     background-color: #111;
+    border-color: #222;
     color: #666;
 }
 
@@ -154,11 +157,18 @@ header {
     background-color: #009944;
 }
 
+#tab-bar-btn-wrap {
+    display: flex;
+    margin: 6px 0;
+    position: absolute;
+    right: 0px;
+}
+
 .tab-bar-btn {
     height: 24px;
     border-width: 2px;
     border-style: solid;
-    margin: 6px 0 6px 15px;
+    margin-right: 6px;
     font-size: 12px;
     font-weight: bold;
     text-align: center;
@@ -174,15 +184,15 @@ header {
     width: 45px;
 }
 
+.inactive-tab-bar-btn {
+    border-color: #222;
+    color: #666;
+}
+
 .active-tab-bar-btn {
     background-color: #F6931F;
     border-color: #333;
     color: #000;
-}
-
-.inactive-tab-bar-btn {
-    border-color: #000;
-    color: #666;
 }
 
 #keyboard {

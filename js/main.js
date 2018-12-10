@@ -196,12 +196,12 @@ jQuery(function ($) {
             case 'rel-fnkey-btn':
                 active = main.relFnkeyIsActive = !main.relFnkeyIsActive;
                 tabBar = $(main.$tabBars[0]);
-                title = 'ファンクションキーと連動: ';
+                title = 'ファンクションキーとレイヤーの関連付け: ';
                 break;
             case 'push-focus-btn':
                 active = main.pushFocusIsActive = !main.pushFocusIsActive;
                 tabBar = $(main.$tabBars[1]);
-                title = 'キー押下とフォーカスを連動: ';
+                title = '押下したキーをフォーカス: ';
                 break;
         }
         
