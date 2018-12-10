@@ -558,13 +558,15 @@ class LaunchKey {
         return work;
     }
     
-    keyAction(eventType, layer=global.currentLayer) {
+    keyAction(eventType, layer=global.currentLayer, isDirect=true) {
         let source = this.getSource(layer);
         
         if (eventType == KEYDOWN) {
             if (source.pushed) return;
             source.pushed = true;
-            if (main.pushFocusIsActive) this.E_mousedown()();
+            if (main.pushFocusIsActive && isDirect) {
+                this.E_mousedown()();
+            }
         } else if (eventType == KEYUP) {
             source.pushed = false;
         }
@@ -682,10 +684,10 @@ class LaunchKey {
                     multipushBuf.push([index, selectedlayer]);
                     continue;
                 }
-                launchKeyList[index].keyAction(KEYDOWN, selectedlayer);
+                launchKeyList[index].keyAction(KEYDOWN, selectedlayer, false);
             }
             for (let [index, selectedlayer] of multipushBuf) {
-                launchKeyList[index].keyAction(KEYDOWN, selectedlayer);
+                launchKeyList[index].keyAction(KEYDOWN, selectedlayer, false);
                 break;
             }
             
