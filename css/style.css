@@ -56,6 +56,16 @@ header {
     color: #FFF;
 }
 
+.logo > span {
+    background-color: #F3EBDD;
+    border-radius: 3px;
+    color: #222;
+    font-size: 13px;
+    font-weight: normal;
+    margin-left: 10px;
+    padding: 0 5px;
+}
+
 #guide-link-wrap {
     position: absolute;
     right: 0;
