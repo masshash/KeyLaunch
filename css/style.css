@@ -103,8 +103,9 @@ header {
 .layer {
     width: 24px;
     height: 24px;
-    border-width: 2px;
+    border-radius: 4px;
     border-style: solid;
+    border-width: 2px;
     font-size: 12px;
     font-weight: bold;
     text-align: center;
@@ -176,8 +177,9 @@ header {
 
 .tab-bar-btn {
     height: 24px;
-    border-width: 2px;
+    border-radius: 4px;
     border-style: solid;
+    border-width: 2px;
     margin-right: 6px;
     font-size: 12px;
     font-weight: bold;
