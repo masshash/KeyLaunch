@@ -114,11 +114,11 @@ header {
 }
 
 .most-left {
-    margin: 6px 0 6px 6px;
+    margin: 6px 0 6px 5px;
 }
 
 .other-right {
-    margin: 6px 0 6px 6px;
+    margin: 6px 0 6px 5px;
 }
 
 .inactive-layer {
@@ -180,7 +180,7 @@ header {
     border-radius: 4px;
     border-style: solid;
     border-width: 2px;
-    margin-right: 6px;
+    margin-right: 5px;
     font-size: 12px;
     font-weight: bold;
     text-align: center;
