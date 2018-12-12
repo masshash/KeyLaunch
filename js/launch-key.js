@@ -240,18 +240,18 @@ class LaunchKey {
                 let index = Number(dataTransfer.getData('text/javascript'));
                 let other = global.launchKeyList[index];
                 let otherSource = other.getSource();
-                let otherGainNode = otherSource.gainNode;
 
                 this.forceStopWork(otherSource);
                 this.forceStopWork(selfSource);
                 
                 selfSource.contentType = otherSource.contentType;
                 selfSource.content = otherSource.content;
-                if (selfSource.contentType == AUDIO &&
-                    selfSource.gainNode    == null) {
-                    selfSource.gainNode = createGainNode();
+                if (selfSource.contentType == AUDIO) {
+                    if (selfSource.gainNode == null) {
+                        selfSource.gainNode = createGainNode();
+                    }
+                    selfSource.gainNode.gain.value = otherSource.gainNode.gain.value;
                 }
-                selfSource.gainNode.gain.value = otherSource.gainNode.gain.value;
                 
                 this.S_normalColor(true, false);
                 this.E_mousedown()();
