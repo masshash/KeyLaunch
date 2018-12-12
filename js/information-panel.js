@@ -239,7 +239,7 @@ const InformationPanel = {
             if (this.progressID != -1) {
                 this.stopProgress();
             }
-            var label = this.controller.typeRadioLabels[content.type];
+            let label = this.controller.typeRadioLabels[content.type];
             label.removeClass('ui-state-focus ui-visual-focus');
         }
     },
