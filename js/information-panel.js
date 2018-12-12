@@ -169,12 +169,17 @@ const InformationPanel = {
         this.progressID = -1;
         this.$controller = $('#controller');
         this.controller = {
-            $ctrlKeyTag:   $('#ctrl-key-tag'),
-            $filenameLine: $('#filename-line'),
-            progressBar:   progressBar,
-            $progressTime: $('#progress-time'),
-            $totalTime:    $('#total-time'),
-            $radios:       radios,
+            $ctrlKeyTag:     $('#ctrl-key-tag'),
+            $filenameLine:   $('#filename-line'),
+            progressBar:     progressBar,
+            $progressTime:   $('#progress-time'),
+            $totalTime:      $('#total-time'),
+            $radios:         radios,
+            typeRadioLabels: {
+                'reset':  $('label[for="reset-type"]'),
+                'hold':   $('label[for="hold-type"]'),
+                'switch': $('label[for="switch-type"]')
+            }
         };
         
         
@@ -229,11 +234,13 @@ const InformationPanel = {
     detach(layer=global.currentLayer) {
         this[this.infoType].css('display', 'none');
         if (this.infoType == '$controller') {
-            let source = this.key.getSource(layer)
-            source.content.isAttachedController = false;
+            let content = this.key.getSource(layer).content;
+            content.isAttachedController = false;
             if (this.progressID != -1) {
                 this.stopProgress();
             }
+            var label = this.controller.typeRadioLabels[content.type];
+            label.removeClass('ui-state-focus ui-visual-focus');
         }
     },
     
