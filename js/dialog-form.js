@@ -116,6 +116,10 @@ const DialogForm = {
             this.audioFormSet(source.content);
         } else if (source.contentType == REFERENCE) {
             this.refFormSet(source.content);
+        } else {
+            let layerSelecter = this.refForm.$layerSelecter;
+            layerSelecter[0].selectedIndex = global.currentLayer;
+            layerSelecter.change();
         }
         
         this.ownCheckboxDisabled(this.currentLayer == global.currentLayer);
@@ -285,10 +289,6 @@ const DialogForm = {
         
         this.selectedKeySets.forEach(this.getFillOptionsFunc(''));
         this.selectedKeySets = [...Array(12).keys()].map(() => new Set());
-        
-        let layerSelecter = this.refForm.$layerSelecter;
-        layerSelecter[0].selectedIndex = 0;
-        layerSelecter.change();
         
         this.ownCheckboxDisabled(false);
         
