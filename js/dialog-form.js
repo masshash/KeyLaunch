@@ -158,7 +158,6 @@ const DialogForm = {
                 let sum = 0;
                 keySets.forEach((set) => sum += set.size);
                 if (sum == 0) return;
-                let refKeyIndex = key.index;
                 let selectedKeyIndexList = [];
                 for (let layer = 0, len = keySets.length; layer < len; layer++) {
                     for (let keyIndex of keySets[layer]) {
