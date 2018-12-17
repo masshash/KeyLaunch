@@ -108,7 +108,7 @@ const DialogForm = {
     open(key) {
         this.key = key;
         let keyname = key.name();
-        if (key.index >= 43 && key.index <= 52) keyname = 'T' + keyname;
+        if (key.index >= T7 && key.index <= T0) keyname = 'T' + keyname;
         this.$title.text(keyname + ' キーの設定');
         
         let source = key.getSource();
