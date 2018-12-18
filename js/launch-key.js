@@ -85,6 +85,7 @@ class LaunchKey {
             gainNode:    null,
             loading:     false,
             pushed:      false,
+            indirect:    false,
             avoidPushedPlayColor: false
         }));
         
@@ -519,7 +520,7 @@ class LaunchKey {
                     if (source.avoidPushedPlayColor) {
                         decotype = 'audioPlay';
                         source.avoidPushedPlayColor = false;
-                    } else if (source.pushed) {
+                    } else if (source.pushed || source.indirect) {
                         decotype = 'pushedPlay';
                     } else {
                         decotype = 'audioPlay';
@@ -560,11 +561,12 @@ class LaunchKey {
     
     keyAction(eventType, layer=global.currentLayer, isDirect=true) {
         let source = this.getSource(layer);
+        source.indirect = !isDirect;
         
-        if (eventType == KEYDOWN) {
+        if (eventType == KEYDOWN && isDirect) {
             if (source.pushed) return;
             source.pushed = true;
-            if (main.pushFocusIsActive && isDirect) {
+            if (main.pushFocusIsActive) {
                 this.E_mousedown()();
             }
         } else if (eventType == KEYUP) {
@@ -639,12 +641,13 @@ class LaunchKey {
     }
     
     T_hold(eventType, source, layer) {
-        if (eventType == KEYDOWN) {
+        let content = source.content
+        if (eventType == KEYDOWN && !content.work) {
             global.infoPanel.incrementPlayCount(layer);
-            this.play(source.content, source.gainNode, layer);
+            this.play(content, source.gainNode, layer);
         } else if (eventType == KEYUP) {
-            if (source.content.work) {
-                source.content.work.stop();
+            if (content.work) {
+                content.work.stop();
             }
         }
     }
@@ -677,18 +680,21 @@ class LaunchKey {
             }
             
             let launchKeyList = global.launchKeyList;
-            let multipushBuf = [];
+            let lastChangeLayer = null;
             for (let [index, selectedlayer] of content.keyIndexList) {
                 let target = launchKeyList[index].getSource(selectedlayer);
-                if (target.contentType == REFERENCE && target.content.type == 'changeLayer') {
-                    multipushBuf.push([index, selectedlayer]);
-                    continue;
+                if (target.contentType == REFERENCE) {
+                    switch (target.content.type) {
+                        case 'changeLayer':
+                            lastChangeLayer = [index, selectedlayer];
+                            continue;
+                    }
                 }
                 launchKeyList[index].keyAction(KEYDOWN, selectedlayer, false);
             }
-            for (let [index, selectedlayer] of multipushBuf) {
+            if (lastChangeLayer) {
+                let [index, selectedlayer] = lastChangeLayer;
                 launchKeyList[index].keyAction(KEYDOWN, selectedlayer, false);
-                break;
             }
             
             if (layer == global.currentLayer) {
@@ -697,9 +703,8 @@ class LaunchKey {
         } else if(eventType == KEYUP) {
             let content = source.content;
             content.work = null;
-            
+
             let launchKeyList = global.launchKeyList;
-            
             for (let [index, selectedlayer] of content.keyIndexList) {
                 launchKeyList[index].keyAction(KEYUP, selectedlayer);
             }
@@ -773,4 +778,3 @@ class LaunchKey {
         }
     }
 }
-
