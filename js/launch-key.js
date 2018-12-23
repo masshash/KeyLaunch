@@ -687,20 +687,24 @@ class LaunchKey {
             
             let launchKeyList = global.launchKeyList;
             let lastChangeLayer = null;
-            for (let [index, selectedlayer] of content.keyIndexList) {
-                let target = launchKeyList[index].getSource(selectedlayer);
+            for (let [index, selectedLayer] of content.keyIndexList) {
+                let target = launchKeyList[index].getSource(selectedLayer);
                 if (target.contentType == REFERENCE) {
                     switch (target.content.type) {
+                        case 'multipush':
+                            if (target == source) {
+                                continue;
+                            }
                         case 'changeLayer':
-                            lastChangeLayer = [index, selectedlayer];
+                            lastChangeLayer = [index, selectedLayer];
                             continue;
                     }
                 }
-                launchKeyList[index].keyAction(KEYDOWN, selectedlayer, false);
+                launchKeyList[index].keyAction(KEYDOWN, selectedLayer, false);
             }
             if (lastChangeLayer) {
-                let [index, selectedlayer] = lastChangeLayer;
-                launchKeyList[index].keyAction(KEYDOWN, selectedlayer, false);
+                let [index, selectedLayer] = lastChangeLayer;
+                launchKeyList[index].keyAction(KEYDOWN, selectedLayer, false);
             }
             
             if (layer == global.currentLayer) {
@@ -710,9 +714,13 @@ class LaunchKey {
             let content = source.content;
             content.work = null;
 
+            let selfIndex = this.index;
             let launchKeyList = global.launchKeyList;
-            for (let [index, selectedlayer] of content.keyIndexList) {
-                launchKeyList[index].keyAction(KEYUP, selectedlayer);
+            for (let [index, selectedLayer] of content.keyIndexList) {
+                if (index == selfIndex && selectedLayer == layer) {
+                    continue;
+                }
+                launchKeyList[index].keyAction(KEYUP, selectedLayer);
             }
             
             if (layer == global.currentLayer) {
@@ -736,9 +744,12 @@ class LaunchKey {
             }
             
             let launchKeyList = global.launchKeyList;
-            for (let [index, selectedlayer] of content.keyIndexList) {
-                let source = launchKeyList[index].getSource(selectedlayer);
-                this.stopWork(source);
+            for (let [index, selectedLayer] of content.keyIndexList) {
+                let target = launchKeyList[index].getSource(selectedLayer);
+                if (target == source) {
+                    continue;
+                }
+                this.stopWork(target);
             }
             
             if (layer == global.currentLayer) {
