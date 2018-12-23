@@ -112,11 +112,12 @@ const DialogForm = {
         this.$title.text(keyname + ' キーの設定');
         
         let source = key.getSource();
-        if (source.contentType == AUDIO) {
-            this.audioFormSet(source.content);
-        } else if (source.contentType == REFERENCE) {
+        if (source.contentType == REFERENCE) {
             this.refFormSet(source.content);
         } else {
+            if (source.contentType == AUDIO) {
+                this.audioFormSet(source.content);
+            }
             let layerSelecter = this.refForm.$layerSelecter;
             layerSelecter[0].selectedIndex = global.currentLayer;
             layerSelecter.change();

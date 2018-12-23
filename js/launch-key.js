@@ -462,12 +462,11 @@ class LaunchKey {
     
     setReferenceContent(content) {
         let source = this.getSource();
-        let contentType = source.contentType;
         let infoPanel = global.infoPanel;
         
-        if (contentType == null) {
+        if (source.contentType == null) {
             infoPanel.incrementContentCount(global.currentLayer);
-        } else if (contentType == AUDIO) {
+        } else if (source.contentType == AUDIO) {
             this.forceStopWork(source);
             infoPanel.changeMasterDataSize(source.content.buffer, -1);
             infoPanel.$controller.css('display', 'none');
