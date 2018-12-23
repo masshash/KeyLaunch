@@ -572,13 +572,13 @@ const InformationPanel = {
         let source = key.getSource(layer);
         let content = source.content;
         
+        this.decrementContentCount(layer);
         if (source.contentType == AUDIO) {
             this.changeMasterDataSize(content.buffer, -1);
             content.buffer = null;
         }
-        key.deleteContent(layer);
         
-        this.decrementContentCount(layer);
+        key.deleteContent(layer);
     },
     
     E_layerDisps_click($event) {

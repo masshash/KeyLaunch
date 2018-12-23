@@ -245,14 +245,13 @@ class LaunchKey {
                 this.forceStopWork(otherSource);
                 this.forceStopWork(selfSource);
                 
-                selfSource.contentType = otherSource.contentType;
-                selfSource.content = otherSource.content;
-                if (selfSource.contentType == AUDIO) {
+                if ((selfSource.contentType = otherSource.contentType) == AUDIO) {
                     if (selfSource.gainNode == null) {
                         selfSource.gainNode = createGainNode();
                     }
                     selfSource.gainNode.gain.value = otherSource.gainNode.gain.value;
                 }
+                selfSource.content = otherSource.content;
                 
                 this.S_normalColor(true, false);
                 this.E_mousedown()();
@@ -463,8 +462,16 @@ class LaunchKey {
     
     setReferenceContent(content) {
         let source = this.getSource();
-        if (source.contentType == null) {
-            global.infoPanel.incrementContentCount(global.currentLayer);
+        let contentType = source.contentType;
+        let infoPanel = global.infoPanel;
+        
+        if (contentType == null) {
+            infoPanel.incrementContentCount(global.currentLayer);
+        } else if (contentType == AUDIO) {
+            this.forceStopWork(source);
+            infoPanel.changeMasterDataSize(source.content.buffer, -1);
+            infoPanel.$controller.css('display', 'none');
+            infoPanel.infoType = null;
         }
         source.contentType = REFERENCE;
         source.content = content;
@@ -472,7 +479,7 @@ class LaunchKey {
         this.S_normalColor(true, true, true);
         this.P_allowDrag(true);
         
-        global.infoPanel.attach(this);
+        infoPanel.attach(this);
     }
     
     isSelected() {
