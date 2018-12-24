@@ -123,8 +123,6 @@ const DialogForm = {
             layerSelecter.change();
         }
         
-        this.ownCheckboxDisabled(this.currentLayer == global.currentLayer);
-        
         global.openedDialogs.add(this.$dialogForm);
         
         centeringDialogPosResizeHandler();
