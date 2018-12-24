@@ -18,6 +18,9 @@ function createGainNode() {
     return gainNode;
 }
 
+const AUDIO     = Symbol('audio');
+const REFERENCE = Symbol('reference');
+
 const keydeco = {
     select: '#222',
     
@@ -57,8 +60,8 @@ const keydeco = {
     }
 };
 
-const AUDIO     = Symbol('audio');
-const REFERENCE = Symbol('reference');
+const keydownChain = new Set();
+const keyupChain   = new Set();
 
 function addWorker(content) {
     global.workers.add(content);
@@ -678,6 +681,8 @@ class LaunchKey {
     
     T_multipush(eventType, source, layer) {
         if (eventType == KEYDOWN) {
+            keydownChain.add(source);
+            
             let content = source.content;
             content.work = {
                 stop: () => {
@@ -691,13 +696,13 @@ class LaunchKey {
                 let target = launchKeyList[index].getSource(selectedLayer);
                 if (target.contentType == REFERENCE) {
                     switch (target.content.type) {
-                        case 'multipush':
-                            if (target == source) {
-                                continue;
-                            }
                         case 'changeLayer':
                             lastChangeLayer = [index, selectedLayer];
                             continue;
+                        case 'multipush':
+                            if (target == source || keydownChain.has(target)) {
+                                continue;
+                            }
                     }
                 }
                 launchKeyList[index].keyAction(KEYDOWN, selectedLayer, false);
@@ -710,14 +715,20 @@ class LaunchKey {
             if (layer == global.currentLayer) {
                 this.S_deco(true, true, this.isSelected());
             }
+            
+            keydownChain.delete(source);
         } else if(eventType == KEYUP) {
+            keyupChain.add(source);
+            
             let content = source.content;
             content.work = null;
 
-            let selfIndex = this.index;
             let launchKeyList = global.launchKeyList;
             for (let [index, selectedLayer] of content.keyIndexList) {
-                if (index == selfIndex && selectedLayer == layer) {
+                let target = launchKeyList[index].getSource(selectedLayer);
+                if (target.contentType == REFERENCE &&
+                    target.content.type == 'multipush' &&
+                    (target == source || keyupChain.has(target))) {
                     continue;
                 }
                 launchKeyList[index].keyAction(KEYUP, selectedLayer);
@@ -731,6 +742,8 @@ class LaunchKey {
                     this.S_deco(true, true, this.isSelected());
                 }
             }
+            
+            keyupChain.delete(source);
         }
     }
     
