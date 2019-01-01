@@ -11,7 +11,7 @@ const global = {
     workers:          new Set(),
     allContentsCount: 0,
     preFocusIndex:    -1,
-    
+
     buttonStates: {
         'stop-btn':   { clicked: false, entered: false},
         'loop-btn':   { downed: false, entered: false},
@@ -43,7 +43,7 @@ jQuery(function ($) {
     global.$layers = $layers;
     let $tabBars = $('.tab-bar-btn');
     main.$tabBars = $tabBars;
-    
+
     let $keys = $('.key');
     let $keySquares = $('.key-square');
     let $spaceKey = $('#space-key');
@@ -55,23 +55,23 @@ jQuery(function ($) {
     let $keyboard = $('#keyboard');
     let $launcher = $('#launcher');
     main.$launcher = $launcher;
-    
+
     for (let i = 0; i < $keys.length; i++) {
         global.launchKeyList.push(new LaunchKey(i, $keys[i]));
     }
-    
+
     InformationPanel.init();
     global.infoPanel = InformationPanel;
-    
+
     CustomCheckBox.init();
     global.checkBox = CustomCheckBox;
-    
+
     DialogForm.init();
     global.dform = DialogForm;
-    
+
     Dialog.init();
     global.dialog = Dialog;
-    
+
     $('#information-panel').mousedown(LaunchKey.E_keepSelectedMousedownHandler);
     $layers.mousedown(LaunchKey.E_keepSelectedMousedownHandler);
     $tabBars.mousedown(LaunchKey.E_keepSelectedMousedownHandler);
@@ -82,25 +82,25 @@ jQuery(function ($) {
             LaunchKey.E_keepSelectedMousedownHandler();
         }
     });
-    
+
     $(document).mousemove(global.dform.E_dialogTitleMousemoveHandler);
     $(document).mouseup(global.dform.E_dialogTitleMouseupHandler);
-    
+
     $(document).mouseup(function($event) {
         let btnStates = global.buttonStates;
-        
+
         if (btnStates['loop-btn'].downed) {
             global.checkBox.E_mouseupHandler($event);
         }
-        
+
         if (btnStates['file-btn1'].downed) {
            global.infoPanel.E_fileBtn1MouseupHandler($event);
         }
-        
+
         if (btnStates['close-btn'].downed) {
             global.dform.E_closeBtnMouseupHandler($event);
         }
-        
+
         if (btnStates['file-btn2'].downed) {
             global.dform.E_dformBtnsMouseupHandler($event, 'file-btn2');
         }
@@ -113,14 +113,14 @@ jQuery(function ($) {
         if (btnStates['dform-cancel-btn'].downed) {
             global.dform.E_dformBtnsMouseupHandler($event, 'dform-cancel-btn');
         }
-        
+
         if (btnStates['dialog-ok-btn'].downed) {
             global.dialog.E_dialogBtnsMouseupHandler($event, 'dialog-ok-btn');
         }
         if (btnStates['dialog-cancel-btn'].downed) {
             global.dialog.E_dialogBtnsMouseupHandler($event, 'dialog-cancel-btn');
         }
-        
+
         if (global.infoPanel.downedSliderIndex != -1) {
             let infoPanel = global.infoPanel;
             let sliderIndex = infoPanel.downedSliderIndex;
@@ -128,36 +128,36 @@ jQuery(function ($) {
             infoPanel.downedSliderIndex = -1;
         }
     });
-    
+
     $(document).mouseup(modalMouseupHandler);
-    
+
     $(document).on('dragover dragenter', function($event) {
         let event = $event.originalEvent;
         event.dataTransfer.dropEffect = "none";
         event.preventDefault();
     });
-    
+
     $layers.click(function($event) {
         let nextLayer = Number(this.textContent) - 1;
         let preLayer = global.currentLayer
         if (nextLayer == preLayer) return;
-        
+
         $($layers[preLayer])
             .removeClass(`active-layer layer${preLayer+1}`)
             .addClass('inactive-layer');
         $($layers[nextLayer])
             .removeClass('inactive-layer')
             .addClass(`active-layer layer${nextLayer+1}`);
-        
+
         let infoPanel = global.infoPanel;
         infoPanel.master1.$layerDisps[preLayer].id = '';
         infoPanel.master1.$layerDisps[nextLayer].id = 'layer-disp' + (nextLayer + 1);
-        
+
         global.currentLayer = nextLayer;
         for (let key of global.launchKeyList) {
             let nextSource = key.getSource(nextLayer);
             let preSource = key.getSource(preLayer);
-            
+
             let preContent = preSource.content
             if (preSource.contentType && preContent.work) {
                 if (preContent.type == 'hold' || preSource.contentType == REFERENCE) {
@@ -171,16 +171,16 @@ jQuery(function ($) {
                     nextSource.avoidPushedPlayColor = true;
                 }
             }
-            
+
             if (nextSource.loading) {
                 key.S_dragenterColor();
             } else {
                 key.S_normalColor();
             }
-            
+
             key.P_allowDrag(nextSource.contentType != null);
         }
-        
+
         let focusedKey = global.$focusedKey
         if (focusedKey) {
             infoPanel.detach(preLayer);
@@ -189,14 +189,14 @@ jQuery(function ($) {
             focusedKey.S_borderColor(keydeco.select);
         }
     });
-    
+
     $tabBars.click(function($event) {
         let active, title;
         switch (this.id) {
             case 'rel-fnkey-btn':
                 active = main.relFnkeyIsActive = !main.relFnkeyIsActive;
                 tabBar = $(main.$tabBars[0]);
-                title = 'ファンクションキーとレイヤーの関連付け: ';
+                title = 'ファンクションキーでレイヤー切り替え: ';
                 break;
             case 'push-focus-btn':
                 active = main.pushFocusIsActive = !main.pushFocusIsActive;
@@ -204,7 +204,7 @@ jQuery(function ($) {
                 title = '押下したキーをフォーカス: ';
                 break;
         }
-        
+
         if (active) {
             tabBar.removeClass('inactive-tab-bar-btn')
                   .addClass('active-tab-bar-btn');
@@ -215,14 +215,14 @@ jQuery(function ($) {
             tabBar.attr('title', title + '無効');
         }
     });
-    
+
     $(document).keydown(keyEventHandlerFactory(KEYDOWN));
     $(document).keyup(keyEventHandlerFactory(KEYUP));
-    
+
     centeringLauncherPosResizeHandler();
     $window.resize(centeringLauncherPosResizeHandler);
     $window.resize(centeringDialogPosResizeHandler);
-    
+
     /*window.resizeKeyboard = function(keySize) {
         let innerKeySize = keySize - (3 * 2);
 
@@ -245,34 +245,34 @@ jQuery(function ($) {
 
         setSize($keySquares, innerKeySize, innerKeySize);
         $keySquares.css('margin', boxMargin);
-        
+
         setSize($spaceKey, Math.round(rowWidth / 2), innerKeySize);
         $spaceKey.css('margin', boxMargin + 'px auto');
-        
+
         setSize($t0Key, (innerKeySize * 2) + innerMargin + (3 * 2), innerKeySize);
         $t0Key.css('margin', boxMargin);
-        
+
         let keyFontsize = innerKeySize * 0.4;
         $keys.css('font-size', Math.round(keyFontsize));
         $keys.css('text-indent', Math.round(((keyFontsize * 1.3) - keyFontsize) / 2));
-        
+
         $rows.width(rowWidth);
         for (let i = 1; i < 4; i++) {
             $rows[i].style.marginLeft = rowMargins[i - 1] + 'px';
         }
-        
+
         let mainKeyWidth = rowMargins[2] + rowWidth + innerMargin;
         $mainKey.width(mainKeyWidth);
         $mainKey.css('padding', boxMargin);
-        
+
         $tenKey.width(tenKeyWidth);
         $tenKey.css('padding', boxMargin);
-        
+
         $keyboard.width(mainKeyWidth + tenKeyWidth);
         $launcher.width(mainKeyWidth + tenKeyWidth);
         return [$keyboard.width(), $keyboard.height()];
     };
-    
+
     window.calcKeyboardSize = function(keySize) {
         let innerMargin = Math.round(keySize * 0.08);
         innerMargin = innerMargin < 2 ? 2 : innerMargin;
@@ -287,7 +287,7 @@ jQuery(function ($) {
         let mainKeyWidth = rowWidth + Math.round(ks05 + boxMargin + ks025 + ks05 + boxMargin);
         return [mainKeyWidth + tenKeyWidth, keySize * 5 + innerMargin * 6]
     };
-    
+
     scope : {
         let pointX = null, pointY = null;
         let keyboardWith, keyboardHeight, keySize = 64, newKeySize = 64;
@@ -349,7 +349,7 @@ function centeringLauncherPosResizeHandler($event) {
 
 function modalMouseupHandler($event) {
     if ($event.which != 1) return;
-    
+
     if (global.dform.modalMousedowned) {
         let dform = global.dform;
         dform.$dformTitle.css('border-color', '');
@@ -364,14 +364,14 @@ function modalMouseupHandler($event) {
 
 function centeringDialogPosResizeHandler($event) {
     if (global.openedDialogs.size == 0) return;
-    
+
     for (let od of global.openedDialogs) {
         let x = ($window.width() - od.width()) / 2;
         let y = ($window.height() - od.height()) / 2;
-        
+
         if (x < 0) x = 0;
         if (y < 0) y = 0;
-        
+
         od.css('left', Math.round(x));
         od.css('top', Math.round(y));
     }
@@ -446,25 +446,25 @@ function keyEventHandlerFactory(keyEvent) {
             case 191: launchKeyList[QM].keyAction(keyEvent); break;
 
             case 32:  launchKeyList[SQ].keyAction(keyEvent); break;
-            
+
             case 111: launchKeyList[SL].keyAction(keyEvent); break;
             case 106: launchKeyList[AS].keyAction(keyEvent); break;
 
             case 103: launchKeyList[T7].keyAction(keyEvent); break;
             case 104: launchKeyList[T8].keyAction(keyEvent); break;
             case 105: launchKeyList[T9].keyAction(keyEvent); break;
-            
+
             case 100: launchKeyList[T4].keyAction(keyEvent); break;
             case 101: launchKeyList[T5].keyAction(keyEvent); break;
             case 102: launchKeyList[T6].keyAction(keyEvent); break;
-            
+
             case 97:  launchKeyList[T1].keyAction(keyEvent); break;
             case 98:  launchKeyList[T2].keyAction(keyEvent); break;
             case 99:  launchKeyList[T3].keyAction(keyEvent); break;
-            
+
             case 96:  launchKeyList[T0].keyAction(keyEvent); break;
             case 110: launchKeyList[PE].keyAction(keyEvent); break;
-            
+
             /* ↑*/
             case 38:
                 if (keyEvent == KEYUP || !global.$focusedKey) return;
@@ -491,7 +491,7 @@ function keyEventHandlerFactory(keyEvent) {
                 global.launchKeyList[fidx].E_mousedown()();
                 global.preFocusIndex = pfidx;
                 break;
-                
+
             /* ↓*/
             case 40:
                 if (keyEvent == KEYUP || !global.$focusedKey) return;
@@ -522,7 +522,7 @@ function keyEventHandlerFactory(keyEvent) {
                 global.launchKeyList[fidx].E_mousedown()();
                 global.preFocusIndex = pfidx;
                 break;
-            
+
             /*→*/
             case 39:
                 if (keyEvent == KEYUP || !global.$focusedKey) return;
@@ -537,7 +537,7 @@ function keyEventHandlerFactory(keyEvent) {
                 }
                 global.launchKeyList[fidx].E_mousedown()();
                 break;
-            
+
             /*←*/
             case 37:
                 if (keyEvent == KEYUP || !global.$focusedKey) return;
@@ -552,17 +552,17 @@ function keyEventHandlerFactory(keyEvent) {
                 }
                 global.launchKeyList[fidx].E_mousedown()();
                 break;
-            
+
             /*delete*/
             case 46:
                 if (keyEvent == KEYUP || global.$focusedKey == null ||
                     global.$focusedKey.getSource().contentType == null) return;
                 global.infoPanel.E_deleteIcon_click();
                 break;
-               
+
             /*tab*/
             case 9: break;
-            
+
             /*F1 - F12*/
             case 112:
             case 113:
@@ -592,7 +592,7 @@ const CustomCheckBox = {
     init() {
         this.content = null;
         this.checked = false;
-        
+
         this.$loopBtn = $('#loop-btn').on({
             mouseenter: this.E_mouseenter,
             mouseleave: this.E_mouseleave,
@@ -601,29 +601,29 @@ const CustomCheckBox = {
         });
         this.$selectBox = $('#select-box');
     },
-    
+
     setContent(content) {
         this.content = content;
     },
-    
+
     fill(loop) {
         let color = loop ? '#F6931F' : '#FFF';
         this.$selectBox.css('background-color', color);
     },
-    
+
     check(loop) {
         this.checked = loop;
         this.fill(loop);
     },
-    
+
     E_mouseenter($event) {
         let btnStates = global.buttonStates['loop-btn'];
         btnStates.entered = true;
         if (btnStates.downed) return;
-        
+
         CustomCheckBox.$selectBox.attr('class', 'select-box-enter');
     },
-    
+
     E_mouseleave($event) {
         let btnStates = global.buttonStates['loop-btn'];
         btnStates.entered = false;
@@ -631,19 +631,19 @@ const CustomCheckBox = {
 
         CustomCheckBox.$selectBox.attr('class', 'select-box-leave');
     },
-    
+
     E_mousedown($event) {
         $event.stopPropagation();
-        
+
         if ($event.which != 1) return;
-        
+
         global.buttonStates['loop-btn'].downed = true;
         CustomCheckBox.$selectBox.attr('class', 'select-box-down');
     },
-    
+
     E_mouseupHandler($event) {
         if ($event.which != 1) return;
-        
+
         let btnStates = global.buttonStates['loop-btn'];
         btnStates.downed = false;
         if (btnStates.entered) {
@@ -652,13 +652,13 @@ const CustomCheckBox = {
             CustomCheckBox.E_mouseleave();
         }
     },
-    
+
     E_click($event) {
         let self = CustomCheckBox;
-        
+
         self.checked = !self.checked
         self.fill(self.checked);
-        
+
         let content = self.content;
         content.loop = self.checked;
         if (content.work) {
@@ -670,7 +670,7 @@ const CustomCheckBox = {
 const Dialog = {
     init() {
         this.type = null;
-        
+
         this.$dialog = $('#dialog');
         this.$dialog.on({
             mousedown: $event => $event.stopPropagation(),
@@ -678,15 +678,15 @@ const Dialog = {
                 this.modalMousedowned = false;
             }
         });
-        
+
         this.$dialogCaption = $('#dialog-caption');
-        
+
         this.$deleteDialogElements = $('.delete-dialog-element');
         this.$deleteContentNumber = $('#delete-content-number');
-        
+
         this.$errorDialogElements = $('.error-dialog-element');
         this.$errorDetails = $(this.$errorDialogElements[1]);
-        
+
         let dialogBtns = $('.dialog-btn').on({
             mouseenter: this.E_dialogBtns_mouseenter,
             mouseleave: this.E_dialogBtns_mouseleave,
@@ -697,12 +697,12 @@ const Dialog = {
             'dialog-ok-btn':     $(dialogBtns[0]),
             'dialog-cancel-btn': $(dialogBtns[1])
         }
-        
+
         this.modalMousedowned = false;
         this.$dialogModal = $('#dialog-modal');
         this.$dialogModal.mousedown(() => this.modalMousedowned = true);
     },
-    
+
     open(type, caption, key, mappingList) {
         if (global.openedDialogs.has(this.$dialog)) {
             this.clear();
@@ -719,7 +719,7 @@ const Dialog = {
         this.$dialogModal.css('display', 'block');
         this.getDialogHeight();
     },
-    
+
     getDialogHeight() {
         if (this.$dialog.height() == 0) {
             setTimeout(this.getDialogHeight, 17);
@@ -727,13 +727,13 @@ const Dialog = {
             centeringDialogPosResizeHandler();
         }
     },
-    
+
     close() {
         this.$dialogModal.css('display', 'none');
         this.clear();
         global.openedDialogs.delete(this.$dialog);
     },
-    
+
     clear() {
         switch (this.type) {
             case 'delete':
@@ -746,22 +746,22 @@ const Dialog = {
         }
         this.type = null;
     },
-    
+
     openDeleteDialog() {
         this.type = 'delete';
         this.$dialogCaption.text('全てのコンテンツを削除しますか？');
         this.$deleteContentNumber.text(global.allContentsCount);
         this.$deleteDialogElements.css('display', 'block');
     },
-    
+
     openErrorDialog(caption, key, details) {
         this.type = 'error';
         this.$dialogCaption.text(caption);
-        
+
         let errorDetails = this.$errorDetails;
         let keyName = key.name();
         let layer = global.currentLayer + 1;
-        
+
         $(`<p><span>該当キー:　</span>${keyName} キー（Layer ${layer}）</p>`)
             .appendTo(errorDetails);
 
@@ -772,13 +772,13 @@ const Dialog = {
                 .css('margin-top', '5px')
                 .appendTo(errorDetails);
         }
-        
+
         this.$errorDialogElements.css('display', 'block');
     },
-    
+
     deleteAllContent() {
         let infoPanel = global.infoPanel;
-        
+
         switch (infoPanel.infoType) {
             case '$controller':
             case '$referenceDetail':
@@ -789,7 +789,7 @@ const Dialog = {
                     infoPanel.showUnset(infoPanel.key);
                 }
         }
-        
+
         let contentCount = global.allContentsCount;
         for (let key of global.launchKeyList) {
             for (let i = 0; i < 12; i++) {
@@ -799,52 +799,52 @@ const Dialog = {
             }
         }
     },
-    
+
     E_dialogBtns_mouseenter($event, id) {
         id = $event ? this.id : id;
         let btnStates = global.buttonStates[id];
         if (btnStates.downed) return;
-        
+
         Dialog.buttons[id]
             .removeClass('dialog-btn-leave dialog-btn-down')
             .addClass('dialog-btn-enter');
     },
-    
+
     E_dialogBtns_mouseleave($event, id) {
         id = $event ? this.id : id;
         let btnStates = global.buttonStates[id];
         if (btnStates.downed) return;
-        
+
         Dialog.buttons[id]
             .removeClass('dialog-btn-enter dialog-btn-down')
             .addClass('dialog-btn-leave');
     },
-    
+
     E_dialogBtns_mousedown($event) {
         if ($event.which != 1) return;
-        
+
         let id = this.id;
-        
+
         global.buttonStates[id].downed = true;
         Dialog.buttons[id]
             .removeClass('dialog-btn-enter')
             .addClass('dialog-btn-down');
     },
-    
+
     E_dialogBtnsMouseupHandler($event, id) {
         if ($event.which != 1) return;
-        
-        let btnStates = global.buttonStates[id]; 
+
+        let btnStates = global.buttonStates[id];
         btnStates.downed = false;
         Dialog.E_dialogBtns_mouseleave(null, id);
     },
-    
+
     E_dialogBtns_click($event) {
         if (Dialog.type == 'delete' &&
             this.id == 'dialog-ok-btn') {
             Dialog.deleteAllContent();
         }
-        
+
         Dialog.close();
     }
 };
