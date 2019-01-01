@@ -16,6 +16,10 @@ Web アプリ内で動作する JavaScript コードには ES6 の構文と Web 
 *Web Audio Api の対応状況*
 - [https://caniuse.com/#feat=audio-api](https://caniuse.com/#feat=audio-api)
 
+KeyLaunch では物理キーボードの使用を前提としているため、スマートフォン及びタブレット上のブラウザからの利用は想定していません。
+
+## KeyLaunch で扱えるオーディオファイル形式 ##
+
 ## To do ##
 - KeyLaunch の詳細や使い方などを説明したドキュメントを作成。
 - オンラインとローカルのストレージに設定データを保存できるようにする。
