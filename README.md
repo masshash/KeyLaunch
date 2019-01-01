@@ -19,7 +19,7 @@ Web アプリ内で動作する JavaScript コードには ES6 の構文と Web 
 KeyLaunch では物理キーボードの使用を前提としているため、スマートフォン及びタブレット上のブラウザからの利用は想定していません。
 
 ## KeyLaunch で扱えるオーディオファイル ##
-MP3, WAV, AAC, FLACKや[その他](https://developer.mozilla.org/en-US/docs/Web/HTML/Supported_media_formats)のフォーマットが扱えます。なお、ブラウザごとに対応しているフォーマットは異なります。
+MP3、WAV、AAC、FLACKや[その他](https://developer.mozilla.org/en-US/docs/Web/HTML/Supported_media_formats)のフォーマットが扱えます。なお、ブラウザごとに対応しているフォーマットは異なります。
 
 ## To do ##
 - KeyLaunch の詳細や使い方などを説明したドキュメントを作成。
